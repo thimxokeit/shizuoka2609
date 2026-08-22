@@ -1,0 +1,234 @@
+/* ==========================================================
+   시즈오카 여행 — 갤럭시 A 시리즈(폭 360dp) 기준 모바일 스타일
+   · 본문 17px 기준, 터치 영역 최소 48px
+   · 저사양 기기 고려: blur/무거운 그림자/애니메이션 최소화
+   ========================================================== */
+
+:root{
+  --navy:#173355;
+  --navy-d:#0F2740;
+  --accent:#D8412A;
+  --ink:#16202B;
+  --gray:#4A5563;
+  --gray-l:#77828F;
+  --line:#DCE3EA;
+  --bg:#F2F5F8;
+  --card:#FFFFFF;
+
+  --d1:#173355; --d2:#26617F; --d3:#2F7566; --d4:#7A4E97;
+
+  --tabh:64px;
+  --safe-t:env(safe-area-inset-top,0px);
+  --safe-b:env(safe-area-inset-bottom,0px);
+}
+
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+
+html{
+  font-size:17px;               /* 부모님 가독성 기준 */
+  -webkit-text-size-adjust:100%;
+  text-size-adjust:100%;
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Malgun Gothic",
+              "Apple SD Gothic Neo",Roboto,"Segoe UI",sans-serif;
+  line-height:1.5;
+  /* 하단 탭바 + 안드로이드 제스처 영역만큼 여백 */
+  padding-bottom:calc(var(--tabh) + var(--safe-b));
+  overscroll-behavior-y:none;
+}
+
+/* ---------------- Header ---------------- */
+header{
+  background:var(--navy-d);
+  color:#fff;
+  padding:calc(12px + var(--safe-t)) 16px 12px;
+}
+.hrow{display:flex;align-items:center;gap:10px;}
+.htitle{font-size:1.15rem;font-weight:800;letter-spacing:-.2px;}
+.hsub{font-size:.78rem;color:#A9BED2;margin-top:3px;}
+.netdot{
+  margin-left:auto;flex:0 0 auto;font-size:.7rem;line-height:1;
+  color:#4ADE80;padding:6px;
+}
+.netdot.off{color:#FBBF24;}
+
+/* ---------------- Views ---------------- */
+.view{padding:14px 12px 24px;}
+.view[hidden]{display:none;}
+
+/* ---------------- Day selector ---------------- */
+.daybar{
+  display:flex;gap:8px;overflow-x:auto;padding:2px 2px 10px;
+  scrollbar-width:none;-webkit-overflow-scrolling:touch;
+}
+.daybar::-webkit-scrollbar{display:none;}
+.daybar.tight{padding-bottom:8px;}
+
+.dbtn{
+  flex:0 0 auto;
+  min-height:48px;               /* 터치 영역 */
+  padding:8px 16px;
+  border-radius:24px;
+  border:1.5px solid var(--line);
+  background:#fff;
+  color:var(--gray);
+  font-size:.94rem;font-weight:700;
+  font-family:inherit;
+  white-space:nowrap;
+  display:flex;flex-direction:column;justify-content:center;
+}
+.dbtn .dd{font-size:.72rem;font-weight:600;opacity:.75;margin-top:1px;}
+.dbtn.on{background:var(--navy);border-color:var(--navy);color:#fff;}
+.dbtn.on .dd{opacity:.85;}
+
+/* ---------------- Plan / timeline ---------------- */
+.dayhead{margin:6px 2px 12px;}
+.dayhead h2{margin:0;font-size:1.3rem;font-weight:800;color:var(--navy);}
+.dayhead .dt{font-size:.85rem;color:var(--gray-l);margin-top:3px;}
+
+.stop{
+  display:flex;gap:11px;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:13px 13px;
+  margin-bottom:9px;
+}
+.stop .no{
+  flex:0 0 auto;width:30px;height:30px;border-radius:50%;
+  color:#fff;font-size:.85rem;font-weight:800;
+  display:flex;align-items:center;justify-content:center;
+}
+.stop .bd{flex:1 1 auto;min-width:0;}
+.stop .tm{font-size:.8rem;font-weight:800;color:var(--accent);}
+.stop .nm{font-size:1.02rem;font-weight:700;margin:2px 0 3px;word-break:keep-all;}
+.stop .nt{font-size:.87rem;color:var(--gray);word-break:keep-all;}
+.stop .go{
+  display:inline-flex;align-items:center;justify-content:center;
+  margin-top:9px;min-height:44px;padding:0 16px;
+  border-radius:22px;background:var(--navy);color:#fff;
+  font-size:.86rem;font-weight:700;text-decoration:none;
+}
+
+/* ---------------- Map ---------------- */
+.mapctl{margin-bottom:10px;}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;}
+.ctl{
+  flex:1 1 auto;min-width:96px;min-height:48px;
+  border-radius:12px;border:1.5px solid var(--line);
+  background:#fff;color:var(--navy);
+  font-size:.92rem;font-weight:700;font-family:inherit;
+}
+.ctl[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff;}
+
+#map{
+  height:58vh;min-height:320px;
+  border-radius:12px;border:1px solid var(--line);
+  background:#E6ECF1;
+}
+@supports (height:100dvh){ #map{height:52dvh;} }
+
+.num-pin{
+  display:flex;align-items:center;justify-content:center;
+  width:30px;height:30px;border-radius:50% 50% 50% 0;
+  transform:rotate(-45deg);border:2.5px solid #fff;
+  color:#fff;font-size:.85rem;font-weight:800;
+}
+.num-pin span{transform:rotate(45deg);}
+.me-dot{
+  width:18px;height:18px;border-radius:50%;
+  background:#2563EB;border:3px solid #fff;
+}
+
+.mapfoot{margin-top:12px;}
+.save{
+  width:100%;min-height:50px;border-radius:12px;
+  border:1.5px solid var(--navy);background:#fff;color:var(--navy);
+  font-size:.94rem;font-weight:700;font-family:inherit;
+}
+.save:disabled{opacity:.55;}
+.savenote{font-size:.8rem;color:var(--gray);margin-top:8px;line-height:1.45;}
+.bar{height:8px;background:var(--line);border-radius:4px;margin-top:9px;overflow:hidden;}
+.bar span{display:block;height:100%;width:0;background:var(--accent);}
+
+/* Leaflet popup — 글자 키움 */
+.leaflet-popup-content{margin:11px 13px;font-size:.9rem;}
+.leaflet-popup-content-wrapper{border-radius:12px;}
+.pp-c{font-size:.78rem;font-weight:800;}
+.pp-n{font-size:1rem;font-weight:800;margin:2px 0 4px;}
+.pp-t{font-size:.85rem;color:var(--gray);line-height:1.45;}
+.pp-l{
+  display:inline-flex;align-items:center;min-height:40px;
+  margin-top:7px;font-size:.85rem;font-weight:700;
+  color:var(--navy);text-decoration:none;
+}
+.leaflet-container{font-family:inherit;}
+.leaflet-control-zoom a{width:38px;height:38px;line-height:38px;font-size:20px;}
+
+/* ---------------- Food ---------------- */
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px;}
+.chip{
+  min-height:44px;padding:0 14px;border-radius:22px;
+  border:1.5px solid var(--line);background:#fff;color:var(--gray);
+  font-size:.88rem;font-weight:700;font-family:inherit;
+}
+.chip.on{color:#fff;border-color:transparent;}
+
+.fcard{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:12px;padding:13px;margin-bottom:9px;
+}
+.fcard .r1{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.fcard .cat{
+  flex:0 0 auto;font-size:.72rem;font-weight:800;color:#fff;
+  padding:3px 9px;border-radius:11px;
+}
+.fcard .nm{font-size:1.02rem;font-weight:700;word-break:keep-all;}
+.fcard .rt{margin-left:auto;font-size:.8rem;color:var(--gray-l);font-weight:700;}
+.fcard .hr{font-size:.87rem;margin-top:7px;word-break:keep-all;}
+.fcard .mm{font-size:.85rem;color:var(--gray);margin-top:3px;word-break:keep-all;}
+.fcard .go{
+  display:inline-flex;align-items:center;justify-content:center;
+  margin-top:10px;min-height:44px;padding:0 16px;border-radius:22px;
+  border:1.5px solid var(--line);color:var(--navy);
+  font-size:.85rem;font-weight:700;text-decoration:none;
+}
+.empty{font-size:.9rem;color:var(--gray-l);padding:20px 4px;text-align:center;}
+
+/* ---------------- Bottom tab bar ---------------- */
+#tabbar{
+  position:fixed;left:0;right:0;bottom:0;z-index:2000;
+  display:flex;background:#fff;border-top:1px solid var(--line);
+  padding-bottom:var(--safe-b);
+}
+.tab{
+  flex:1 1 0;min-height:var(--tabh);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  border:none;background:none;color:var(--gray-l);
+  font-family:inherit;font-size:.76rem;font-weight:700;
+}
+.tab .ti{font-size:1.25rem;line-height:1;}
+.tab.on{color:var(--accent);}
+
+/* ---------------- 아주 좁은 기기 (320~360dp) ---------------- */
+@media (max-width:360px){
+  html{font-size:16px;}
+  .view{padding:12px 10px 20px;}
+  .ctl{min-width:88px;font-size:.86rem;}
+  .stop{padding:12px 11px;gap:9px;}
+}
+
+/* ---------------- 큰 화면에서는 가운데 정렬 ---------------- */
+@media (min-width:600px){
+  header,#main{max-width:640px;margin-left:auto;margin-right:auto;}
+  #tabbar{max-width:640px;left:50%;transform:translateX(-50%);border-radius:16px 16px 0 0;}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important;}
+}
