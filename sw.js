@@ -3,7 +3,7 @@
    · 지도 타일: 캐시 우선 + 백그라운드 저장, 최대 개수 제한
    업데이트할 때는 VERSION 숫자만 올리면 됩니다.
 */
-var VERSION   = 'v8';
+var VERSION   = 'v10';
 var SHELL     = 'shizuoka-shell-' + VERSION;
 var TILES     = 'shizuoka-tiles-' + VERSION;
 var TILE_MAX  = 1400;   // 타일 캐시 상한 (대략 40~60MB)
@@ -16,6 +16,10 @@ var SHELL_FILES = [
   './leaflet.js',
   './leaflet.css',
   './manifest.webmanifest',
+  './favicon.ico',
+  './favicon-32.png',
+  './favicon-16.png',
+  './apple-touch-icon.png',
   './icon-192.png',
   './icon-512.png',
   './icon-512-maskable.png',
