@@ -178,6 +178,16 @@ header{
 .daybar .dbtn .dd{font-size:.72rem;font-weight:600;opacity:.75;margin-top:1px;}
 .daybar .dbtn.on{background:var(--navy);border-color:var(--navy);color:#fff;}
 
+/* 오늘 날짜 표시 */
+.todaydot{
+  display:inline-block;margin-left:6px;padding:1px 6px;border-radius:9px;
+  background:var(--accent);color:#fff;font-size:.62rem;font-weight:800;
+  vertical-align:middle;line-height:1.5;
+}
+.dbtn.today{border-color:var(--accent);}
+.dbtn.today.on{border-color:var(--accent);}
+.mapover .dbtn.today{box-shadow:0 0 0 2px var(--accent),0 1px 3px rgba(0,0,0,.18);}
+
 .dayhead{margin:6px 2px 12px;}
 .dayhead h2{margin:0;font-size:1.28rem;font-weight:800;color:var(--navy);}
 .dayhead .dt{font-size:.85rem;color:var(--gray-l);margin-top:3px;}
