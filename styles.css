@@ -152,6 +152,36 @@ header{
 .stop .nt{font-size:.83rem;color:var(--gray);word-break:keep-all;}
 .stop.sel{background:#FFF4F1;border-radius:10px;}
 
+/* ---------- 대안 일정 ---------- */
+.stop.altrow{
+  margin-left:22px;
+  padding-top:8px;padding-bottom:8px;
+  border-left:2px dashed var(--line);
+  padding-left:12px;
+  background:#FAFBFC;
+}
+.stop.altrow .nm{font-size:.93rem;}
+.no.altno{
+  background:#fff;border:2px solid currentColor;
+  font-size:.68rem;width:30px;
+}
+.altlabel{
+  display:inline-block;padding:1px 6px;border-radius:8px;
+  background:var(--gray-l);color:#fff;font-size:.64rem;font-weight:800;
+}
+/* 지도 위 대안 핀: 속을 비워 본 일정과 구분 */
+.num-pin.alt{
+  background:#fff!important;border:2.5px solid currentColor;
+  font-size:.66rem;font-weight:800;
+}
+
+/* 고리키군 코스처럼 하위 항목인 경우 */
+.stop.subrow{
+  border-left:3px solid var(--line);
+  background:#F7F9FA;
+}
+.altlabel.sublabel{background:var(--d3);}
+
 /* 시트가 접힌 상태에서는 시간+장소만 보여 3~4행이 들어가게 */
 #sheet .stop{padding:9px 8px;}
 #sheet .stop .nt{display:none;}
