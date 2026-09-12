@@ -1,5 +1,5 @@
 /* ==========================================================
-   시즈오카 여행 — 갤럭시 A 시리즈(폭 360dp) 기준
+   아이슬란드·핀란드 여행 — 갤럭시 A 시리즈(폭 360dp) 기준
    지도 + 일정 시트를 한 화면에 두는 구조
    ========================================================== */
 
@@ -28,7 +28,6 @@ body{
   font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Malgun Gothic",
               "Apple SD Gothic Neo",Roboto,"Segoe UI",sans-serif;
   line-height:1.5;
-  /* 화면 전체를 세로 3단(헤더/본문/탭바)으로 고정 */
   display:flex;flex-direction:column;
   height:100vh;height:100dvh;
   overflow:hidden;overscroll-behavior:none;
@@ -57,7 +56,6 @@ header{
 /* ---------------- Map ---------------- */
 #map{position:absolute;inset:0;background:#E6ECF1;}
 
-/* 지도 위 날짜 pill */
 .mapover{
   position:absolute;top:10px;left:10px;right:64px;z-index:600;
   display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:2px;
@@ -74,7 +72,6 @@ header{
 .mapover .dbtn .dd{font-size:.66rem;font-weight:600;opacity:.7;}
 .mapover .dbtn.on{background:var(--navy);color:#fff;border-color:var(--navy);}
 
-/* 지도 위 원형 버튼 */
 .fabs{
   position:absolute;right:10px;z-index:600;
   bottom:calc(var(--peek) + 12px);
@@ -108,7 +105,7 @@ header{
 .pp-l{display:inline-flex;align-items:center;min-height:40px;margin-top:6px;
       font-size:.85rem;font-weight:700;color:var(--navy);text-decoration:none;}
 .leaflet-container{font-family:inherit;}
-.leaflet-control-zoom{display:none;}   /* 화면이 좁아 손가락 확대만 사용 */
+.leaflet-control-zoom{display:none;}
 .leaflet-control-attribution{font-size:9px;}
 
 /* ---------------- 아래 일정 시트 ---------------- */
@@ -141,10 +138,41 @@ header{
   padding:11px 8px;border-bottom:1px solid var(--line);
 }
 .stop:last-child{border-bottom:none;}
+
+.conn{
+  display:flex;align-items:center;gap:6px;
+  margin-left:21px;padding:5px 0 5px 12px;
+  border-left:2px dashed #C9D2DA;
+  font-size:.76rem;font-weight:600;color:var(--gray-l);
+  line-height:1.3;
+}
+.conn-ic{font-size:.7rem;opacity:.7;}
 .stop .no{
   flex:0 0 auto;width:27px;height:27px;border-radius:50%;
   color:#fff;font-size:.8rem;font-weight:800;
   display:flex;align-items:center;justify-content:center;margin-top:2px;
+}
+
+/* 대안(하위) 항목 */
+.stop.subrow{
+  border-left:3px solid var(--line);
+  background:#F7F9FA;
+  margin-left:14px;
+}
+.stop.subrow .no.alt{
+  background:#fff;border:2px solid;
+}
+.stop.subrow .nm{font-size:.93rem;}
+.altlabel{
+  display:inline-block;padding:1px 7px;border-radius:9px;
+  background:var(--gray-l);color:#fff;
+  font-size:.66rem;font-weight:800;vertical-align:middle;
+  margin-right:2px;
+}
+.altlabel.sublabel{background:#7A8794;}
+
+.num-pin.alt{
+  background:#fff;border:2.5px solid;
 }
 .stop .bd{flex:1 1 auto;min-width:0;}
 .stop .tm{font-size:.76rem;font-weight:800;color:var(--accent);}
@@ -152,37 +180,6 @@ header{
 .stop .nt{font-size:.83rem;color:var(--gray);word-break:keep-all;}
 .stop.sel{background:#FFF4F1;border-radius:10px;}
 
-/* ---------- 대안 일정 ---------- */
-.stop.altrow{
-  margin-left:22px;
-  padding-top:8px;padding-bottom:8px;
-  border-left:2px dashed var(--line);
-  padding-left:12px;
-  background:#FAFBFC;
-}
-.stop.altrow .nm{font-size:.93rem;}
-.no.altno{
-  background:#fff;border:2px solid currentColor;
-  font-size:.68rem;width:30px;
-}
-.altlabel{
-  display:inline-block;padding:1px 6px;border-radius:8px;
-  background:var(--gray-l);color:#fff;font-size:.64rem;font-weight:800;
-}
-/* 지도 위 대안 핀: 속을 비워 본 일정과 구분 */
-.num-pin.alt{
-  background:#fff!important;border:2.5px solid currentColor;
-  font-size:.66rem;font-weight:800;
-}
-
-/* 고리키군 코스처럼 하위 항목인 경우 */
-.stop.subrow{
-  border-left:3px solid var(--line);
-  background:#F7F9FA;
-}
-.altlabel.sublabel{background:var(--d3);}
-
-/* 시트가 접힌 상태에서는 시간+장소만 보여 3~4행이 들어가게 */
 #sheet .stop{padding:9px 8px;}
 #sheet .stop .nt{display:none;}
 #sheet.open .stop{padding:11px 8px;}
@@ -208,7 +205,6 @@ header{
 .daybar .dbtn .dd{font-size:.72rem;font-weight:600;opacity:.75;margin-top:1px;}
 .daybar .dbtn.on{background:var(--navy);border-color:var(--navy);color:#fff;}
 
-/* 오늘 날짜 표시 */
 .todaydot{
   display:inline-block;margin-left:6px;padding:1px 6px;border-radius:9px;
   background:var(--accent);color:#fff;font-size:.62rem;font-weight:800;
@@ -260,6 +256,39 @@ header{
 }
 .empty{font-size:.9rem;color:var(--gray-l);padding:20px 4px;text-align:center;}
 
+/* ---------------- 체크리스트 ---------------- */
+.checkhead{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:12px;
+}
+.checkprog{font-size:.98rem;font-weight:800;color:var(--navy);}
+.checkreset{
+  min-height:38px;padding:0 12px;border-radius:19px;
+  border:1.5px solid var(--line);background:#fff;color:var(--gray);
+  font-size:.8rem;font-weight:700;font-family:inherit;
+}
+.ckcat{
+  font-size:.86rem;font-weight:800;color:var(--gray-l);
+  margin:16px 2px 8px;text-transform:none;
+}
+.ckcat:first-child{margin-top:0;}
+.ckitem{
+  display:flex;gap:11px;align-items:flex-start;
+  background:#fff;border:1px solid var(--line);border-radius:12px;
+  padding:12px 13px;margin-bottom:8px;
+}
+.ckitem.on{background:#F3F8F4;border-color:#BFE0C6;}
+.ckbox{
+  flex:0 0 auto;width:24px;height:24px;border-radius:7px;margin-top:1px;
+  border:2px solid var(--line);color:#fff;font-size:.85rem;font-weight:900;
+  display:flex;align-items:center;justify-content:center;
+}
+.ckbox.on{background:#2F9E52;border-color:#2F9E52;}
+.ckbd{flex:1 1 auto;min-width:0;}
+.cktext{font-size:.95rem;font-weight:600;word-break:keep-all;}
+.ckitem.on .cktext{color:var(--gray);text-decoration:line-through;text-decoration-color:#9FC9A8;}
+.cknote{font-size:.82rem;color:var(--gray-l);margin-top:3px;word-break:keep-all;}
+
 /* ---------------- 하단 탭바 ---------------- */
 #tabbar{
   flex:0 0 auto;display:flex;background:#fff;border-top:1px solid var(--line);
@@ -269,9 +298,9 @@ header{
   flex:1 1 0;min-height:var(--tabh);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
   border:none;background:none;color:var(--gray-l);
-  font-family:inherit;font-size:.72rem;font-weight:700;
+  font-family:inherit;font-size:.7rem;font-weight:700;
 }
-.tab .ti{font-size:1.2rem;line-height:1;}
+.tab .ti{font-size:1.15rem;line-height:1;}
 .tab.on{color:var(--accent);}
 
 /* ---------------- 좁은 화면 ---------------- */
@@ -280,7 +309,6 @@ header{
   :root{--peek:264px;}
   .vscroll{padding:12px 10px 22px;}
 }
-/* 세로가 짧은 기기 */
 @media (max-height:680px){
   :root{--peek:238px;}
   .hsub{display:none;}
@@ -293,3 +321,4 @@ header{
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important;}
 }
+
