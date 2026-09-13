@@ -1,12 +1,12 @@
-/* 시즈오카 여행 — 서비스 워커
+/* 아이슬란드·핀란드 여행 — 서비스 워커
    · 앱 파일: 캐시 우선 (오프라인에서 즉시 열림)
    · 지도 타일: 캐시 우선 + 백그라운드 저장, 최대 개수 제한
    업데이트할 때는 VERSION 숫자만 올리면 됩니다.
 */
-var VERSION   = 'v18';
-var SHELL     = 'shizuoka-shell-' + VERSION;
-var TILES     = 'shizuoka-tiles-' + VERSION;
-var TILE_MAX  = 1400;   // 타일 캐시 상한 (대략 40~60MB)
+var VERSION   = 'v2';
+var SHELL     = 'if26-shell-' + VERSION;
+var TILES     = 'if26-tiles-' + VERSION;
+var TILE_MAX  = 1800;   // 타일 캐시 상한 (3개 구역, 남부해안은 저해상도)
 
 var SHELL_FILES = [
   './',
@@ -29,7 +29,6 @@ var SHELL_FILES = [
   './images/layers-2x.png'
 ];
 
-/* ---------- 설치 ---------- */
 self.addEventListener('install', function (e) {
   e.waitUntil(
     caches.open(SHELL).then(function (c) {
@@ -40,7 +39,6 @@ self.addEventListener('install', function (e) {
   );
 });
 
-/* ---------- 활성화: 옛 캐시 정리 ---------- */
 self.addEventListener('activate', function (e) {
   e.waitUntil(
     caches.keys().then(function (keys) {
@@ -53,7 +51,6 @@ self.addEventListener('activate', function (e) {
   );
 });
 
-/* ---------- 타일 캐시 개수 제한 ---------- */
 function trimTiles() {
   caches.open(TILES).then(function (c) {
     c.keys().then(function (keys) {
@@ -69,7 +66,6 @@ function isTile(url) {
          /\.tile\.openstreetmap\.org/.test(url.hostname);
 }
 
-/* ---------- 요청 처리 ---------- */
 self.addEventListener('fetch', function (e) {
   var req = e.request;
   if (req.method !== 'GET') return;
@@ -77,7 +73,6 @@ self.addEventListener('fetch', function (e) {
   var url;
   try { url = new URL(req.url); } catch (err) { return; }
 
-  /* 지도 타일: 캐시에 있으면 그대로, 없으면 받아서 저장 */
   if (isTile(url)) {
     e.respondWith(
       caches.open(TILES).then(function (c) {
@@ -90,7 +85,6 @@ self.addEventListener('fetch', function (e) {
             }
             return res;
           }).catch(function () {
-            /* 오프라인이고 저장도 안 된 타일 → 빈 응답 (지도는 회색으로 표시) */
             return new Response('', { status: 504, statusText: 'offline tile' });
           });
         });
@@ -99,23 +93,35 @@ self.addEventListener('fetch', function (e) {
     return;
   }
 
-  /* 같은 출처의 앱 파일: 캐시 우선, 네트워크로 갱신 */
+  /* 앱 파일: 네트워크 우선 (3초 안에 응답 없으면 캐시)
+     → 커밋한 내용이 바로 반영되고, 오프라인에서는 캐시로 자동 전환 */
   if (url.origin === self.location.origin) {
     e.respondWith(
-      caches.match(req).then(function (hit) {
-        var net = fetch(req).then(function (res) {
+      new Promise(function (resolve) {
+        var settled = false;
+        function done(res) { if (!settled) { settled = true; resolve(res); } }
+
+        var timer = setTimeout(function () {
+          caches.match(req).then(function (hit) {
+            if (hit) done(hit);
+          });
+        }, 3000);
+
+        fetch(req).then(function (res) {
+          clearTimeout(timer);
           if (res && res.ok) {
-            caches.open(SHELL).then(function (c) { c.put(req, res.clone()); });
+            var copy = res.clone();
+            caches.open(SHELL).then(function (c) { c.put(req, copy); });
           }
-          return res;
+          done(res);
         }).catch(function () {
-          return hit || caches.match('./index.html');
+          clearTimeout(timer);
+          caches.match(req).then(function (hit) {
+            done(hit || caches.match('./index.html'));
+          });
         });
-        return hit || net;
       })
     );
     return;
   }
-
-  /* 그 외(외부 링크 등)는 그대로 통과 */
 });
