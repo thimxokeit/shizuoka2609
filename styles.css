@@ -41,8 +41,16 @@ header{
 .hrow{display:flex;align-items:center;gap:10px;}
 .htitle{font-size:1.08rem;font-weight:800;letter-spacing:-.2px;}
 .hsub{font-size:.75rem;color:#A9BED2;margin-top:2px;}
-.netdot{margin-left:auto;font-size:.7rem;line-height:1;color:#4ADE80;padding:6px;}
+.netdot{font-size:.7rem;line-height:1;color:#4ADE80;padding:6px;}
 .netdot.off{color:#FBBF24;}
+.reload{
+  margin-left:auto;width:38px;height:38px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);
+  color:#fff;font-size:1.1rem;line-height:1;font-family:inherit;
+}
+.reload:active{background:rgba(255,255,255,.2);}
+.reload.spin{animation:sp .8s linear infinite;}
+@keyframes sp{to{transform:rotate(360deg);}}
 
 /* ---------------- Main ---------------- */
 #main{flex:1 1 auto;position:relative;min-height:0;}
@@ -321,4 +329,3 @@ header{
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important;}
 }
-
