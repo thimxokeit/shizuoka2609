@@ -672,6 +672,34 @@ $('btnLoc').addEventListener('click', function(){
 
 $('btnSave').addEventListener('click', prefetchTiles);
 
+/* 최신 내용으로 새로고침 — 앱 파일 캐시를 비우고 다시 받아옴 */
+$('btnReload').addEventListener('click', function(){
+  var b = this;
+  b.classList.add('spin');
+  if (!navigator.onLine){
+    b.classList.remove('spin');
+    alert("인터넷에 연결된 상태에서 눌러주세요.");
+    return;
+  }
+  var jobs = [];
+  if (window.caches){
+    jobs.push(caches.keys().then(function(keys){
+      return Promise.all(keys.map(function(k){
+        /* 지도 타일 캐시는 그대로 두고 앱 파일 캐시만 삭제 */
+        if (k.indexOf('tiles') === -1) return caches.delete(k);
+      }));
+    }));
+  }
+  if (navigator.serviceWorker && navigator.serviceWorker.getRegistrations){
+    jobs.push(navigator.serviceWorker.getRegistrations().then(function(rs){
+      return Promise.all(rs.map(function(r){ return r.update(); }));
+    }));
+  }
+  Promise.all(jobs).catch(function(){}).then(function(){
+    location.reload(true);
+  });
+});
+
 window.addEventListener('resize', function(){
   if (map) setTimeout(function(){ map.invalidateSize(); }, 120);
 });
