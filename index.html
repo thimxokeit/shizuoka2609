@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#142A45">
-<meta name="description" content="시즈오카 가족여행 일정 · 지도 · 맛집 목록">
-<title>시즈오카 여행</title>
+<meta name="description" content="아이슬란드·핀란드 여행 일정 · 지도 · 맛집 · 체크리스트">
+<title>아이슬란드·핀란드 여행</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
@@ -19,9 +19,10 @@
 <header id="top">
   <div class="hrow">
     <div>
-      <div class="htitle">시즈오카 가족여행</div>
-      <div class="hsub">9/4(금) – 9/7(월) · Hotel Associa Shizuoka</div>
+      <div class="htitle">아이슬란드 · 핀란드</div>
+      <div class="hsub">9/9(수) – 9/17(목) · 오로라 헌팅 &amp; 빙하투어</div>
     </div>
+    <button id="btnReload" class="reload" type="button" aria-label="최신 내용으로 새로고침">⟳</button>
     <div id="netdot" class="netdot" aria-live="polite" title="연결 상태">●</div>
   </div>
 </header>
@@ -37,7 +38,7 @@
     <div class="fabs">
       <button class="fab" id="btnLoc" type="button" aria-label="내 위치">📍</button>
       <button class="fab" id="btnFit" type="button" aria-label="전체 경로 보기">⤢</button>
-      <button class="fab" id="btnFood" type="button" aria-label="맛집 표시" aria-pressed="false">🍜</button>
+      <button class="fab" id="btnFood" type="button" aria-label="맛집 표시" aria-pressed="false">🍽️</button>
     </div>
 
     <div id="sheet" class="peek">
@@ -56,7 +57,7 @@
     <div class="savewrap">
       <button class="save" id="btnSave" type="button">이 지역 지도 미리 저장</button>
       <div class="savenote" id="saveNote">
-        와이파이에서 한 번 눌러두면 오프라인에서도 지도가 보여요.
+        와이파이에서 한 번 눌러두면 오프라인에서도 지도가 보여요. (레이캬비크·남부해안·헬싱키 3개 구역)
       </div>
       <div class="bar" id="saveBar" hidden><span id="saveFill"></span></div>
     </div>
@@ -66,6 +67,15 @@
   <section id="view-food" class="view vscroll" hidden>
     <div class="chips" id="chips"></div>
     <div id="foodBody"></div>
+  </section>
+
+  <!-- ========== 체크리스트 ========== -->
+  <section id="view-check" class="view vscroll" hidden>
+    <div class="checkhead">
+      <div class="checkprog" id="checkProg">0 / 0 완료</div>
+      <button class="checkreset" id="btnCheckReset" type="button">전체 초기화</button>
+    </div>
+    <div id="checkBody"></div>
   </section>
 
 </main>
@@ -78,7 +88,10 @@
     <span class="ti">📋</span><span class="tl">일정 전체</span>
   </button>
   <button class="tab" data-v="food" type="button" role="tab" aria-selected="false">
-    <span class="ti">🍜</span><span class="tl">맛집</span>
+    <span class="ti">🍽️</span><span class="tl">맛집</span>
+  </button>
+  <button class="tab" data-v="check" type="button" role="tab" aria-selected="false">
+    <span class="ti">✅</span><span class="tl">체크리스트</span>
   </button>
 </nav>
 
